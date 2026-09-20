@@ -1,4 +1,4 @@
-import type { NextConfig } from "next";
+import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
   poweredByHeader: false,
@@ -17,6 +17,25 @@ const nextConfig: NextConfig = {
       "@emotion/react",
       "@emotion/styled",
     ],
+  },
+  async redirects() {
+    return [
+      {
+        source: '/faq',
+        destination: '/support/faq',
+        permanent: true,
+      },
+      {
+        source: '/help-center',
+        destination: '/support/help-center',
+        permanent: true,
+      },
+      {
+        source: '/home',
+        destination: '/',
+        permanent: true,
+      },
+    ];
   },
 };
 

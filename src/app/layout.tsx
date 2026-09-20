@@ -1,9 +1,6 @@
 import type { Metadata } from "next";
 import { Outfit } from "next/font/google";
-import ThemeProvider from '@/components/ThemeProvider';
-import { AuthProvider } from '@/contexts/AuthContext';
-import { LanguageProvider } from '@/contexts/LanguageContext';
-import PerformanceMonitor from '@/components/PerformanceMonitor';
+import AppProviders from "@/components/AppProviders";
 import GoogleTagManager, { GoogleTagManagerNoscript } from '@/components/GoogleTagManager';
 import ServiceWorkerRegister from '@/components/ServiceWorkerRegister';
 import { SEO } from '@/constants/theme';
@@ -63,7 +60,7 @@ export const metadata: Metadata = {
     description: SEO.defaultDescription,
     url: SEO.siteUrl,
     type: "website",
-    locale: "en_US",
+    locale: "ar_SA",
     siteName: SEO.siteName,
     images: [
       {
@@ -90,7 +87,7 @@ export const metadata: Metadata = {
 export const viewport = {
   width: "device-width",
   initialScale: 1,
-  maximumScale: 1,
+  maximumScale: 5,
 };
 
 export default function RootLayout({
@@ -110,7 +107,7 @@ export default function RootLayout({
         "@type": "ContactPoint",
         telephone: SEO.contact.phone,
         contactType: "customer service",
-        availableLanguage: ["English", "Arabic"],
+        availableLanguage: ["Arabic", "English"],
       },
     ],
     address: {
@@ -130,16 +127,11 @@ export default function RootLayout({
     "@type": "WebSite",
     name: SEO.siteName,
     url: SEO.siteUrl,
-    inLanguage: ["en", "ar"],
-    potentialAction: {
-      "@type": "SearchAction",
-      target: `${SEO.siteUrl}/search?q={search_term_string}`,
-      "query-input": "required name=search_term_string",
-    },
+    inLanguage: ["ar", "en"],
   };
 
   return (
-    <html lang="en" dir="ltr" suppressHydrationWarning>
+    <html lang="ar" dir="rtl" suppressHydrationWarning>
       <head>
         <meta name="emotion-insertion-point" content="" />
         <meta name="google-site-verification" content="SJCwkBWfbHB2rVkhSR9h1CxZg8mxVt0yCyKxXkJ1ExU" />
@@ -167,15 +159,8 @@ export default function RootLayout({
         />
         <GoogleTagManagerNoscript />
         <GoogleTagManager />
-        <ThemeProvider>
-          <LanguageProvider>
-            <AuthProvider>
-              {children}
-              <PerformanceMonitor />
-              <ServiceWorkerRegister />
-            </AuthProvider>
-          </LanguageProvider>
-        </ThemeProvider>
+        <AppProviders>{children}</AppProviders>
+        <ServiceWorkerRegister />
       </body>
     </html>
   );
