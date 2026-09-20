@@ -103,14 +103,14 @@ export const resendBookingConfirmationEmail = async (
     const reservationNumber = formData.reservationNumber || 'PENDING';
     
     // Generate confirm order link with full domain
-    // Priority: NEXT_PUBLIC_BASE_URL > VERCEL_URL > localhost
+    // Priority: NEXT_PUBLIC_SITE_URL > NEXT_PUBLIC_BASE_URL > production default
     let baseUrl: string;
-    if (process.env.NEXT_PUBLIC_BASE_URL) {
+    if (process.env.NEXT_PUBLIC_SITE_URL) {
+      baseUrl = process.env.NEXT_PUBLIC_SITE_URL;
+    } else if (process.env.NEXT_PUBLIC_BASE_URL) {
       baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
-    } else if (process.env.VERCEL_URL) {
-      baseUrl = `https://${process.env.VERCEL_URL}`;
     } else {
-      baseUrl = 'http://localhost:3000';
+      baseUrl = 'https://eventforce.sa.com';
     }
     // Ensure baseUrl doesn't have trailing slash
     baseUrl = baseUrl.replace(/\/$/, '');

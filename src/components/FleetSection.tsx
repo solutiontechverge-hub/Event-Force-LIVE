@@ -31,6 +31,8 @@ import { getFleetImageSrc } from "@/lib/fleetImageUtils";
 const FleetSection = () => {
   const { homepageFleet } = usePricing();
   const fleet = homepageFleet.map((car) => ({
+    id: car.id,
+    slug: car.slug,
     name: car.name,
     price: car.listPrice,
     duration: car.listDuration,
@@ -183,7 +185,7 @@ const FleetSection = () => {
               >
                 {fleet.map((car, index) => (
                   <Box
-                    key={index}
+                    key={car.id || car.slug || `fleet-${index}`}
                     sx={{
                       width: {
                         xs: "100%",

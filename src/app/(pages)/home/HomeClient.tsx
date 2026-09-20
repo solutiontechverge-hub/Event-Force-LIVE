@@ -1,12 +1,12 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
+import dynamic from 'next/dynamic';
 import Header from '@/components/Header';
 import HeroSection from '@/components/HeroSection';
 import MissionVision from '@/components/MissionVision';
 import DownloadProfile from '@/components/DownloadProfile';
 import Footer from '@/components/Footer';
-import HomeBookingPopup from '@/components/HomeBookingPopup';
 import {
   SuspenseBenefitsSection,
   SuspenseTestimonialsSection,
@@ -14,6 +14,12 @@ import {
   SuspenseContactSection,
 } from '@/components/LazyComponents';
 import { Divider, Box } from '@mui/material';
+
+/** Deferred so the hero LCP image can load first (same idea as RamadanPopup). */
+const HomeBookingPopup = dynamic(
+  () => import('@/components/HomeBookingPopup'),
+  { ssr: false },
+);
 
 const HomeClient = () => {
   const [popupOpen, setPopupOpen] = useState(false);
