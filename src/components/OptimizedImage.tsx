@@ -44,7 +44,7 @@ const OptimizedImage: React.FC<OptimizedImageProps> = ({
   onLoad,
   onError,
 }) => {
-  const [isLoading, setIsLoading] = React.useState(true);
+  const [isLoading, setIsLoading] = React.useState(!priority);
   const [hasError, setHasError] = React.useState(false);
 
   const handleLoad = () => {

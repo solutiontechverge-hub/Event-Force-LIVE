@@ -4,13 +4,16 @@ import ThemeProvider from '@/components/ThemeProvider';
 import { AuthProvider } from '@/contexts/AuthContext';
 import { LanguageProvider } from '@/contexts/LanguageContext';
 import PerformanceMonitor from '@/components/PerformanceMonitor';
+import GoogleTagManager, { GoogleTagManagerNoscript } from '@/components/GoogleTagManager';
+import ServiceWorkerRegister from '@/components/ServiceWorkerRegister';
 import { SEO } from '@/constants/theme';
 import "./globals.css";
 
 const outfit = Outfit({
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
+  weight: ["400", "700"],
   variable: "--font-outfit",
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -136,7 +139,7 @@ export default function RootLayout({
   };
 
   return (
-    <html lang="en" dir="ltr">
+    <html lang="en" dir="ltr" suppressHydrationWarning>
       <head>
         <meta name="emotion-insertion-point" content="" />
         <meta name="google-site-verification" content="SJCwkBWfbHB2rVkhSR9h1CxZg8mxVt0yCyKxXkJ1ExU" />
@@ -149,120 +152,30 @@ export default function RootLayout({
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
         <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
         <link rel="shortcut icon" href="/favicon.ico" />
-        {/* Preload critical fonts */}
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link rel="preconnect" href="https://www.googletagmanager.com" />
+      </head>
+      <body className={`${outfit.className}`} suppressHydrationWarning={true}>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
+          suppressHydrationWarning
         />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
+          suppressHydrationWarning
         />
-      </head>
-   <body className={`${outfit.className}`} suppressHydrationWarning={true}>
-        {/* Initial Loading Screen - Shows while JS/CSS loads */}
-        <div id="initial-loading-screen" className="initial-loading-screen">
-          <img 
-            src="/logo-event-force.png" 
-            alt="Event Force" 
-            className="loading-logo"
-            width={180}
-            height={54}
-          />
-          <div className="loading-spinner"></div>
-          <p className="loading-text">Loading...</p>
-        </div>
-        
+        <GoogleTagManagerNoscript />
+        <GoogleTagManager />
         <ThemeProvider>
           <LanguageProvider>
             <AuthProvider>
               {children}
               <PerformanceMonitor />
+              <ServiceWorkerRegister />
             </AuthProvider>
           </LanguageProvider>
         </ThemeProvider>
-        
-        {/* Script to hide loading screen once styles are ready */}
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              // Mark body as styles loaded and hide loading screen
-              // Only hide via CSS class, let React handle DOM removal to avoid hydration issues
-              (function() {
-                function hideLoadingScreen() {
-                  var loadingScreen = document.getElementById('initial-loading-screen');
-                  if (loadingScreen && !loadingScreen.classList.contains('hidden')) {
-                    loadingScreen.classList.add('hidden');
-                  }
-                  document.body.classList.add('styles-loaded');
-                }
-                
-                // Hide loading screen when DOM is ready and styles are loaded
-                if (document.readyState === 'complete') {
-                  hideLoadingScreen();
-                } else {
-                  window.addEventListener('load', hideLoadingScreen);
-                }
-                
-                // Fallback: Hide after max 3 seconds
-                setTimeout(hideLoadingScreen, 3000);
-              })();
-            `,
-          }}
-        />
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-             if (process.env.NODE_ENV === 'production' && 'serviceWorker' in navigator){
-                window.addEventListener('load', function() {
-                  navigator.serviceWorker.register('/service-worker.js')
-                    .then(function(registration) {
-                     
-                      
-                      // Check for updates
-                      registration.addEventListener('updatefound', function() {
-                        const newWorker = registration.installing;
-                        if (newWorker) {
-                          newWorker.addEventListener('statechange', function() {
-                            if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-                              // New content is available, prompt user to refresh
-                              if (confirm('New version available! Refresh to update?')) {
-                                window.location.reload();
-                              }
-                            }
-                          });
-                        }
-                      });
-                      
-                      // Cache support pages on registration
-                      if (registration.active) {
-                        registration.active.postMessage({ type: 'CACHE_SUPPORT_PAGES' });
-                      }
-                    })
-                    .catch(function(error) {
-                    });
-                });
-                
-                // Handle service worker updates
-                navigator.serviceWorker.addEventListener('controllerchange', function() {
-                  window.location.reload();
-                });
-                
-                // Handle offline/online events
-                window.addEventListener('online', function() {
-                  // Optionally show a notification or update UI
-                });
-                
-                window.addEventListener('offline', function() {
-                  // Optionally show offline indicator
-                });
-              } else {
-              }
-            `,
-          }}
-        />
       </body>
     </html>
   );

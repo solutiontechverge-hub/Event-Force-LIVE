@@ -21,7 +21,7 @@ export { default as ClientShape2 } from './client-shape-2.png';
 export { default as ClientShape3 } from './cclient-shape-3.png';
 
 // Hero Images
-export { default as HeroImages } from './hero-images.png';
+export { default as HeroImages } from './hero-images.webp';
 
 // Logo Images
 export { default as LogoEventForce } from './logo-event-force.png';
@@ -126,6 +126,6 @@ export { default as ContactUsBg } from './contact-us.png';
 
 
 
-export { default as BackgroundPopUp } from './ramadan-bg.jpg';
+export { default as BackgroundPopUp } from './ramadan-bg.webp';
 
 

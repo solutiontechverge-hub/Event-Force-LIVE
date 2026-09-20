@@ -1,9 +1,6 @@
-// 'use client';
-
+// Home route layout — providers already wrap the app in root layout.
 import React from 'react';
 import { metadata } from './metadata';
-import { AuthProvider } from '@/contexts/AuthContext';
-import { LanguageProvider } from '@/contexts/LanguageContext';
 
 export { metadata };
 
@@ -12,11 +9,5 @@ export default function HomeLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return (
-    <AuthProvider>
-      <LanguageProvider>
-        {children}
-      </LanguageProvider>
-    </AuthProvider>
-  );
+  return children;
 }

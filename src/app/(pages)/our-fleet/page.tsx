@@ -1,32 +1,18 @@
 'use client';
 
-import React, { useState, useEffect } from 'react'
-import { Box, Typography, Container, Skeleton } from '@mui/material'
+import React from 'react'
+import { Box, Typography, Container } from '@mui/material'
 import Image from 'next/image'
 import Header from '@/components/Header'
 import FleetPage from '@/components/FleetPage'
 import Footer from '@/components/Footer'
 
 import { SlideUpInView } from '@/components/animations'
-import { PageSkeleton } from '@/components/PageSkeleton'
 import { FleetBg } from '../../../../public/images';
 import { useLanguage } from '@/contexts/LanguageContext';
 
 const OurFleetPage = () => {
     const { t } = useLanguage();
-    const [isMounted, setIsMounted] = useState(false);
-
-    useEffect(() => {
-        const timer = setTimeout(() => {
-            setIsMounted(true);
-        }, 500);
-        
-        return () => clearTimeout(timer);
-    }, []);
-
-    if (!isMounted) {
-        return <PageSkeleton heroHeight="60vh" contentType="fleet" />;
-    }
 
     return (
         <>

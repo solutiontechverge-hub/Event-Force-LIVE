@@ -41,5 +41,9 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
+# local ponytail checkout (Cursor hooks load rules from here)
+/ponytail/
 
+# Cursor project files
+.cursor/
 

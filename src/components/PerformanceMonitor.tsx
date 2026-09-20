@@ -24,13 +24,18 @@ const PerformanceMonitor: React.FC = () => {
         if (metric.value !== undefined) {
          
           
-          // Send to analytics (replace with your analytics service)
-          if (typeof window !== 'undefined' && 'gtag' in window) {
-            (window as any).gtag('event', 'web_vitals', {
+          // Send to analytics (GTM dataLayer + gtag if present)
+          if (typeof window !== 'undefined') {
+            const payload = {
               event_category: 'Performance',
               event_label: metric.name,
               value: Math.round(metric.value),
-            });
+            };
+            if ('gtag' in window) {
+              (window as any).gtag('event', 'web_vitals', payload);
+            }
+            window.dataLayer = window.dataLayer || [];
+            window.dataLayer.push({ event: 'web_vitals', ...payload });
           }
         }
       }

@@ -2,14 +2,12 @@
 
 import React, { useEffect, useRef } from "react";
 import Link from "next/link";
-import Image from "next/image";
 import {
   Box,
   Typography,
   Button,
   Container,
   Fab,
-  alpha,
   keyframes,
 } from "@mui/material";
 import {
@@ -17,20 +15,16 @@ import {
   ArrowUpward as ArrowUpwardIcon,
 } from "@mui/icons-material";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
-import {
-  ScaleInView,
-  SlideSidewayInView,
-  SlideUpInView,
-} from "@/components/animations";
+import { SlideUpInView } from "@/components/animations";
 import OptimizedImage from "@/components/OptimizedImage";
-import { THEME, IMAGE_CONFIG } from "@/constants/theme";
+import { THEME } from "@/constants/theme";
 import { HeroImages } from "../../public/images";
 import { useLanguage } from "@/contexts/LanguageContext";
 
 const HeroSection = () => {
   const heroRef = useRef<HTMLDivElement>(null);
   const isMobile = useMediaQuery("(max-width:900px)");
-  const { t, language } = useLanguage();
+  const { t } = useLanguage();
 
   useEffect(() => {
     let ticking = false;
@@ -124,8 +118,8 @@ const HeroSection = () => {
             alt="Event Force Hero Background - Premium Transportation Services"
             fill
             priority
-            quality={IMAGE_CONFIG.quality}
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 100vw, 100vw"
+            quality={70}
+            sizes="100vw"
             objectFit="cover"
             objectPosition="center center"
           />
@@ -141,104 +135,6 @@ const HeroSection = () => {
             bottom: 0,
             backgroundColor: "rgba(0, 0, 0, 0.4)",
             zIndex: 1,
-          }}
-        />
-
-        {/* Animated City Skyline */}
-        <Box
-          sx={{
-            position: "absolute",
-            bottom: 0,
-            left: 0,
-            right: 0,
-            height: 200,
-            background: "linear-gradient(to top, rgba(0,0,0,0.8), transparent)",
-            opacity: 0.6,
-          }}
-        >
-          {/* Building silhouettes */}
-          {[...Array(20)].map((_, i) => (
-            <Box
-              key={i}
-              sx={{
-                position: "absolute",
-                bottom: 0,
-                left: `${i * 5}%`,
-                width: `${((i * 0.5) % 3) + 2}%`,
-                height: `${((i * 50) % 200) + 100}px`,
-                backgroundColor: "rgba(0,0,0,0.8)",
-                animation: `${pulse} 3s infinite`,
-                animationDelay: `${i * 0.1}s`,
-              }}
-            />
-          ))}
-        </Box>
-
-        {/* Floating Vehicles */}
-        <Box
-          sx={{
-            position: "absolute",
-            bottom: 80,
-            left: 40,
-            width: 128,
-            height: 64,
-            backgroundColor: "rgba(0,0,0,0.6)",
-            borderRadius: 2,
-            animation: `${pulse} 2s infinite`,
-          }}
-        />
-        <Box
-          sx={{
-            position: "absolute",
-            bottom: 64,
-            right: 80,
-            width: 160,
-            height: 80,
-            backgroundColor: "rgba(0,0,0,0.6)",
-            borderRadius: 2,
-            animation: `${pulse} 2s infinite`,
-            animationDelay: "1s",
-          }}
-        />
-        <Box
-          sx={{
-            position: "absolute",
-            bottom: 96,
-            left: "50%",
-            transform: "translateX(-50%)",
-            width: 144,
-            height: 72,
-            backgroundColor: "rgba(0,0,0,0.6)",
-            borderRadius: 2,
-            animation: `${pulse} 2s infinite`,
-            animationDelay: "2s",
-          }}
-        />
-
-        {/* Glowing Effects */}
-        <Box
-          sx={{
-            position: "absolute",
-            top: "25%",
-            left: "25%",
-            width: 256,
-            height: 256,
-            backgroundColor: alpha("#1976d2", 0.1),
-            borderRadius: "50%",
-            animation: `${pulse} 4s infinite`,
-          }}
-        />
-        <Box
-          sx={{
-            position: "absolute",
-            top: "33%",
-            right: "25%",
-            width: 192,
-            height: 192,
-            backgroundColor: alpha("#42a5f5", 0.1),
-            borderRadius: "50%",
-            animation: `${pulse} 4s infinite`,
-            animationDelay: "1s",
           }}
         />
       </Box>
@@ -265,7 +161,7 @@ const HeroSection = () => {
           }}
         >
           {/* Main Title */}
-          <SlideUpInView initialY={80} duration={0.8}>
+          <SlideUpInView immediate>
             <Typography
               variant={isMobile ? "h3" : "h1"}
               component="h1"
@@ -299,7 +195,7 @@ const HeroSection = () => {
           </SlideUpInView>
 
           {/* Subtitle */}
-          <SlideUpInView initialY={60} duration={0.9} delay={0.2}>
+          <SlideUpInView immediate>
             <Typography
               variant={isMobile ? "h6" : "h5"}
               sx={{
@@ -320,7 +216,7 @@ const HeroSection = () => {
           </SlideUpInView>
 
           {/* CTA Buttons */}
-          <SlideUpInView initialY={40} duration={1.0} delay={0.4}>
+          <SlideUpInView immediate>
             <Box
               sx={{
                 display: "flex",

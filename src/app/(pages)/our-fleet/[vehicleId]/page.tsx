@@ -187,7 +187,7 @@ const VehicleDetailsPage = () => {
   const searchParams = useSearchParams();
   const { t } = useLanguage();
   const vehicleId = params?.vehicleId as string;
-  const [isMounted, setIsMounted] = React.useState(false);
+  const isMounted = true;
   const [heroImageLoaded, setHeroImageLoaded] = React.useState(false);
 
   // Get color from URL params if available
@@ -200,15 +200,6 @@ const VehicleDetailsPage = () => {
   const [hoveredInteriorImage, setHoveredInteriorImage] = React.useState<
     number | null
   >(null);
-
-  React.useEffect(() => {
-    // Delay to show skeleton - ensures it's visible on initial load
-    const timer = setTimeout(() => {
-      setIsMounted(true);
-    }, 500);
-
-    return () => clearTimeout(timer);
-  }, []);
 
   // Update selected color when URL params change
   React.useEffect(() => {

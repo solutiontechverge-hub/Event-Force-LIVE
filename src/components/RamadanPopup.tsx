@@ -16,22 +16,35 @@ import { BackgroundPopUp } from "../../public/images";
 import { THEME } from "@/constants/theme";
 import { useRouter } from "next/navigation";
 
+const SESSION_KEY = "ef_ramadan_popup_seen";
+
 export default function RamadanPopup() {
   const [open, setOpen] = useState(false);
+  const router = useRouter();
 
-  // ✅ Always show popup on page load
   useEffect(() => {
+    try {
+      if (sessionStorage.getItem(SESSION_KEY) === "1") return;
+    } catch {
+      // ignore
+    }
+
+    // Defer so hero LCP image can load first
     const timer = setTimeout(() => {
       setOpen(true);
-    }, 500);
+    }, 2500);
 
     return () => clearTimeout(timer);
   }, []);
 
   const handleClose = () => {
     setOpen(false);
+    try {
+      sessionStorage.setItem(SESSION_KEY, "1");
+    } catch {
+      // ignore
+    }
   };
-  const router = useRouter();
 
   if (!open) return null;
 
@@ -56,7 +69,6 @@ export default function RamadanPopup() {
       }}
     >
       <DialogContent sx={{ p: 0, position: "relative" }}>
-        {/* Close button */}
         <IconButton
           onClick={handleClose}
           sx={{
@@ -71,17 +83,17 @@ export default function RamadanPopup() {
           <CloseIcon />
         </IconButton>
 
-        {/* Background image */}
         <Box sx={{ position: "relative", height: "520px", width: "100%" }}>
           <Image
             src={BackgroundPopUp}
             alt="Ramadan Kareem"
             fill
+            sizes="(max-width: 520px) 95vw, 520px"
+            quality={65}
+            loading="lazy"
             style={{ objectFit: "cover" }}
-            priority
           />
 
-          {/* Overlay content */}
           <Box
             sx={{
               position: "absolute",
@@ -122,6 +134,7 @@ export default function RamadanPopup() {
               variant="contained"
               fullWidth
               onClick={() => {
+                handleClose();
                 router.push(`/our-fleet`);
               }}
               sx={{

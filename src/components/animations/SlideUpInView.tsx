@@ -9,6 +9,8 @@ interface SlideUpInViewProps extends BoxProps {
   duration?: number;
   delay?: number;
   threshold?: number;
+  /** Render visible immediately (use for above-the-fold / LCP text). */
+  immediate?: boolean;
 }
 
 const SlideUpInView: React.FC<SlideUpInViewProps> = ({
@@ -17,18 +19,20 @@ const SlideUpInView: React.FC<SlideUpInViewProps> = ({
   duration = 0.6,
   delay = 0,
   threshold = 0.1,
+  immediate = false,
   ...props
 }) => {
-  const [isVisible, setIsVisible] = useState(false);
-  const [isMounted, setIsMounted] = useState(false);
+  const [isVisible, setIsVisible] = useState(immediate);
+  const [isMounted, setIsMounted] = useState(immediate);
   const elementRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    if (immediate) return;
     setIsMounted(true);
-  }, []);
+  }, [immediate]);
 
   useEffect(() => {
-    if (!isMounted) return;
+    if (immediate || !isMounted) return;
 
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -50,15 +54,15 @@ const SlideUpInView: React.FC<SlideUpInViewProps> = ({
         observer.unobserve(elementRef.current);
       }
     };
-  }, [delay, threshold, isMounted]);
+  }, [delay, threshold, isMounted, immediate]);
 
   return (
     <Box
       ref={elementRef}
       sx={{
-        transform: isMounted && isVisible ? 'translateY(0)' : `translateY(${initialY}px)`,
-        opacity: isMounted && isVisible ? 1 : 0,
-        transition: isMounted ? `all ${duration}s ease-out` : 'none',
+        transform: isVisible ? 'translateY(0)' : `translateY(${initialY}px)`,
+        opacity: isVisible ? 1 : 0,
+        transition: isMounted && !immediate ? `all ${duration}s ease-out` : 'none',
         ...props.sx,
       }}
       {...props}

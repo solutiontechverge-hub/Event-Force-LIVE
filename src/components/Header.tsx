@@ -99,6 +99,8 @@ const Header = () => {
             alt="Event Force Logo"
             width={140}
             height={42}
+            priority
+            sizes="140px"
             style={{
               objectFit: "contain",
             }}
@@ -310,6 +312,8 @@ const Header = () => {
                   alt="Event Force Logo"
                   width={168}
                   height={51}
+                  priority
+                  sizes="168px"
                   style={{
                     objectFit: "contain",
                   }}

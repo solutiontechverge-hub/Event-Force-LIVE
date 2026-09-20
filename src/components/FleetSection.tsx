@@ -168,7 +168,6 @@ const FleetSection = () => {
           <Box sx={{ position: "relative" }}>
             {/* Navigation Arrows */}
             <IconButton
-              key={language}
               onClick={language === "ar" ? nextFleet : prevFleet}
               sx={{
                 position: "absolute",
@@ -189,7 +188,6 @@ const FleetSection = () => {
             </IconButton>
 
             <IconButton
-              key={language}
               onClick={language === "ar" ? prevFleet : nextFleet}
               sx={{
                 position: "absolute",
