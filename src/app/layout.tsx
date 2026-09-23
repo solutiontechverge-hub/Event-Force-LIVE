@@ -147,6 +147,7 @@ export default function RootLayout({
         <link rel="preconnect" href="https://www.googletagmanager.com" />
       </head>
       <body className={`${outfit.className}`} suppressHydrationWarning={true}>
+        <GoogleTagManagerNoscript />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
@@ -157,7 +158,6 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
           suppressHydrationWarning
         />
-        <GoogleTagManagerNoscript />
         <GoogleTagManager />
         <AppProviders>{children}</AppProviders>
         <ServiceWorkerRegister />
