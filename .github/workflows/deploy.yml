@@ -23,6 +23,8 @@ jobs:
             cd "${{ secrets.DEPLOY_PATH }}"
             git fetch origin
             git checkout dev
+            git reset --hard origin/dev
+            git clean -fd
             git pull origin dev
             export NODE_ENV=production
             npm ci
