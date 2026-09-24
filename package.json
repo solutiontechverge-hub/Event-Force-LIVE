@@ -23,6 +23,7 @@
     "react": "19.2.3",
     "react-dom": "19.2.3",
     "react-phone-number-input": "^3.4.14",
+    "sharp": "0.32.6",
     "stripe": "^20.3.1"
   },
   "devDependencies": {
@@ -34,5 +35,8 @@
     "eslint-config-next": "16.1.1",
     "tailwindcss": "^4",
     "typescript": "^5"
+  },
+  "overrides": {
+    "sharp": "0.32.6"
   }
 }

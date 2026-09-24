@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 import { Outfit } from "next/font/google";
 import AppProviders from "@/components/AppProviders";
-import GoogleTagManager, { GoogleTagManagerNoscript } from '@/components/GoogleTagManager';
+import GoogleTagManager from '@/components/GoogleTagManager';
 import ServiceWorkerRegister from '@/components/ServiceWorkerRegister';
 import { SEO } from '@/constants/theme';
+import { GTM_ID, isGtmEnabled } from '@/lib/gtm';
 import "./globals.css";
 
 const outfit = Outfit({
@@ -147,7 +148,14 @@ export default function RootLayout({
         <link rel="preconnect" href="https://www.googletagmanager.com" />
       </head>
       <body className={`${outfit.className}`} suppressHydrationWarning={true}>
-        <GoogleTagManagerNoscript />
+        {/* Google Tag Manager (noscript) — must be first child of body */}
+        {isGtmEnabled ? (
+          <noscript
+            dangerouslySetInnerHTML={{
+              __html: `<iframe src="https://www.googletagmanager.com/ns.html?id=${GTM_ID}" height="0" width="0" style="display:none;visibility:hidden" title="Google Tag Manager"></iframe>`,
+            }}
+          />
+        ) : null}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}

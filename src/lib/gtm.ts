@@ -1,4 +1,15 @@
-export const GTM_ID = process.env.NEXT_PUBLIC_GTM_ID || 'GTM-M9M6XDBG';
+const DEFAULT_GTM_ID = 'GTM-M9M6XDBG';
+
+/** Treat empty / example placeholders as unset so the real default can apply. */
+function resolveGtmId(raw: string | undefined): string {
+  const id = (raw || '').trim();
+  if (!id) return DEFAULT_GTM_ID;
+  // .env.example style: GTM-XXXXXXX (all X after the prefix)
+  if (/^GTM-X+$/i.test(id)) return DEFAULT_GTM_ID;
+  return id;
+}
+
+export const GTM_ID = resolveGtmId(process.env.NEXT_PUBLIC_GTM_ID);
 
 export const isGtmEnabled =
   Boolean(GTM_ID) && process.env.NEXT_PUBLIC_ENABLE_ANALYTICS !== 'false';

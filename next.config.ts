@@ -4,6 +4,8 @@ const nextConfig: NextConfig = {
   poweredByHeader: false,
   compress: true,
   images: {
+    // Old VPS CPUs lack x86-64-v2; avoid sharp at runtime for image optimization.
+    unoptimized: true,
     formats: ["image/avif", "image/webp"],
     qualities: [65, 70, 75],
     deviceSizes: [640, 750, 828, 1080, 1200, 1920],
